@@ -32,7 +32,12 @@ float duracionDiapositiva = 5;
 
 boolean nextRama1 = false;
 boolean nextRama2 = false;
-boolean credits = false;
+
+boolean creditsRama0 = false;
+boolean creditsRama1 = false;
+boolean creditsRama2 = false;
+
+String[] creditsText;
 
 public void settings() {
   size(600, 600);
@@ -66,6 +71,12 @@ void setup() {
   // INICIALIZACIÓN DE VARIABLES DE INICIO
   imgGoBack = loadImage("volver.jpg");
   imgGo = loadImage("go.png");
+
+  creditsRama0 = false;
+  creditsRama1 = false;
+  creditsRama2 = false;
+
+  creditsText = loadStrings("./data/creditos.txt");
 }
 
 void draw() {
@@ -76,58 +87,69 @@ void draw() {
     image(imgGo, 170, 145, 260, 260);
   } else {
 
-    if (credits) {
+    if (diapos[10]) {
+      creditsRama0 = true;
+    } else if (option3Diapos[3]) {
+      creditsRama1 = true;
+    } else if (option3_3Diapos[7]) {
+      creditsRama2 = true;
+    }
+
+    for (int i = 0; i < 11; i++) {
+      if (diapos[i]) {
+        image(images[i], 0, 0, 600, 600);
+        fill(0, 0, 0, 200);
+        rect(textPositionsX[i], textPositionsY[i], 570, 150);
+        fill(255);
+        textSize(16);
+        text(texts[i], textPositionsX[i], textPositionsY[i]);
+        if (i == 0 || i == 1 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7 || i == 8 || i == 9 || i == 10) {
+          drawNextButton();
+        } else if (i == 2) {
+          drawOptionalButtons();
+        }
+      }
+    }
+
+    for (int i = 0; i < 4; i++) {
+      if (option3Diapos[i]) {
+        image(option3Images[i], 0, 0, 600, 600);
+        fill(0, 0, 0, 200);
+        rect(option3TextPositionsX[i], option3TextPositionsY[i], 570, 150);
+        fill(255);
+        textSize(16);
+        text(option3Texts[i], option3TextPositionsX[i], option3TextPositionsY[i]);
+        if (i == 0 || i == 1 || i == 3 || i == 4) {
+          drawNextButton();
+        } else if (i == 2) {
+          drawOptionalButtons();
+        }
+      }
+    }
+
+    for (int i = 0; i < 8; i++) {
+      if (option3_3Diapos[i]) {
+        image(option3_3Images[i], 0, 0, 600, 600);
+        fill(0, 0, 0, 200);
+        rect(option3_3TextPositionsX[i], option3_3TextPositionsY[i], 570, 150);
+        fill(255);
+        textSize(16);
+        text(option3_3Texts[i], option3_3TextPositionsX[i], option3_3TextPositionsY[i]);
+        if (i < 7) {
+          drawNextButton();
+        }
+      }
+    }
+
+    if (creditsRama0 || creditsRama1 || creditsRama2) {
+      background(0);
       fill(255);
-      text("Créditos", 10, 20);
-      textSize(16);
-      textAlign(CENTER, CENTER);
+      textSize(32);
+      textAlign(LEFT, TOP);
+      for (int i = 0; i < creditsText.length; i++) {
+        text(creditsText[i], 20, 20 + i * 20);
+      }
       image(imgGoBack, 518, 522, 46, 77);
-    } else {
-      for (int i = 0; i < 11; i++) {
-        if (diapos[i]) {
-          image(images[i], 0, 0, 600, 600);
-          fill(0, 0, 0, 200);
-          rect(textPositionsX[i], textPositionsY[i], 570, 150);
-          fill(255);
-          textSize(16);
-          text(texts[i], textPositionsX[i], textPositionsY[i]);
-          if (i == 0 || i == 1 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7 || i == 8 || i == 9 || i == 10) {
-            drawNextButton();
-          } else if (i == 2) {
-            drawOptionalButtons();
-          }
-        }
-      }
-
-      for (int i = 0; i < 4; i++) {
-        if (option3Diapos[i]) {
-          image(option3Images[i], 0, 0, 600, 600);
-          fill(0, 0, 0, 200);
-          rect(option3TextPositionsX[i], option3TextPositionsY[i], 570, 150);
-          fill(255);
-          textSize(16);
-          text(option3Texts[i], option3TextPositionsX[i], option3TextPositionsY[i]);
-          if (i == 0 || i == 1) {
-            drawNextButton();
-          } else if (i == 2) {
-            drawOptionalButtons();
-          }
-        }
-      }
-
-      for (int i = 0; i < 8; i++) {
-        if (option3_3Diapos[i]) {
-          image(option3_3Images[i], 0, 0, 600, 600);
-          fill(0, 0, 0, 200);
-          rect(option3_3TextPositionsX[i], option3_3TextPositionsY[i], 570, 150);
-          fill(255);
-          textSize(16);
-          text(option3_3Texts[i], option3_3TextPositionsX[i], option3_3TextPositionsY[i]);
-          if (i < 7) {
-            drawNextButton();
-          }
-        }
-      }
     }
   }
 }
@@ -165,9 +187,6 @@ void avanzarDiapositiva() {
     diapos[10] = true;
   } else if (diapos[10]) {
     diapos[10] = false;
-    credits = true;
-  } else if (credits) {
-    credits = false;
   }
 
   // Validación rama 1
@@ -179,9 +198,6 @@ void avanzarDiapositiva() {
     option3Diapos[2] = true;
   }  else if (option3Diapos[3]) {
     option3Diapos[3] = false;
-    credits = true;
-  } else if (credits) {
-    credits = false;
   }
 
   // Validación rama 2
@@ -208,10 +224,7 @@ void avanzarDiapositiva() {
     option3_3Diapos[7] = true;
   } else if (option3_3Diapos[7]) {
     option3_3Diapos[7] = false;
-    credits = true;
-  } else if (credits) {
-    credits = false;
-  }
+  } 
 }
 
 void mouseClicked() {
@@ -224,7 +237,7 @@ void mouseClicked() {
   // Botón de avanzar diapositiva
   if ( (diapos[0] || diapos[1] || diapos[3] || diapos[4] || diapos[5] || diapos[6] || diapos[7] || diapos[8] || diapos[9] || diapos[10] ||
     option3Diapos[0] || option3Diapos[1] || option3Diapos[3] ||
-    option3_3Diapos[0] || option3_3Diapos[1] || option3_3Diapos[2] || option3_3Diapos[3] || option3_3Diapos[4] || option3_3Diapos[5] || option3_3Diapos[6] || option3_3Diapos[7] || credits)
+    option3_3Diapos[0] || option3_3Diapos[1] || option3_3Diapos[2] || option3_3Diapos[3] || option3_3Diapos[4] || option3_3Diapos[5] || option3_3Diapos[6] || option3_3Diapos[7])
     && go && mouseX >= 220 && mouseX <= 340 && mouseY >= 540 && mouseY <= 577)
   {
     avanzarDiapositiva();
@@ -265,9 +278,21 @@ void mouseClicked() {
   }
 
   //BOTON DE REINICIO 
-  if ((credits) && go && mouseX >= 518 && mouseX <= 564 && mouseY >= 522 && mouseY <= 599) {
+  if ((creditsRama0 || creditsRama1 || creditsRama2) &&
+    go && mouseX >= 518 && mouseX <= 564 && mouseY >= 522 && mouseY <= 599)
+  {
     go = false;
-    credits = false;
+    creditsRama0 = false;
+    creditsRama1 = false;
+    creditsRama2 = false;
+  }
+
+  if ((creditsRama0 || creditsRama1 || creditsRama2) &&
+    go && mouseX >= 518 && mouseX <= 564 && mouseY >= 522 && mouseY <= 599) {
+    go = false;
+    creditsRama0 = false;
+    creditsRama1 = false;
+    creditsRama2 = false;
   }
 }
 
