@@ -1,22 +1,22 @@
 // VARIABLES DE IMAGEN
-PImage[] images = new PImage[11];
-PImage[] option3Images = new PImage[4];
-PImage[] option3_3Images = new PImage[8];
+PImage[] images = new PImage[12];
+PImage[] option3Images = new PImage[5];
+PImage[] option3_3Images = new PImage[9];
 PImage imgGoBack;
 PImage imgGo;
 
 // VARIABLES DE TEXTO
-String[] texts = new String[11];
-String[] option3Texts = new String[4];
-String[] option3_3Texts = new String[8];
+String[] texts = new String[12];
+String[] option3Texts = new String[5];
+String[] option3_3Texts = new String[9];
 
 // VARIABLES DE TAMAÑO DE TEXTO
-float[] textPositionsX = new float[11];
-float[] textPositionsY = new float[11];
-float[] option3TextPositionsX = new float[4];
-float[] option3TextPositionsY = new float[4];
-float[] option3_3TextPositionsX = new float[8];
-float[] option3_3TextPositionsY = new float[8];
+float[] textPositionsX = new float[12];
+float[] textPositionsY = new float[12];
+float[] option3TextPositionsX = new float[5];
+float[] option3TextPositionsY = new float[5];
+float[] option3_3TextPositionsX = new float[9];
+float[] option3_3TextPositionsY = new float[9];
 
 // VARIABLES DE BOTONES
 boolean goBack = false;
@@ -24,20 +24,20 @@ boolean go = false;
 
 // OTROS
 boolean[] diapos = new boolean[12];
-boolean[] option3Diapos = new boolean[4];
-boolean[] option3_3Diapos = new boolean[8];
-boolean[] option3_3_ImagesDiapos = new boolean[8];
+boolean[] option3Diapos = new boolean[5];
+boolean[] option3_3Diapos = new boolean[9];
+boolean[] option3_3_ImagesDiapos = new boolean[9];
 float tiempoDiapositiva = 0;
 float duracionDiapositiva = 5;
 
 boolean nextRama1 = false;
 boolean nextRama2 = false;
 
+String[] creditsText;
+
 boolean creditsRama0 = false;
 boolean creditsRama1 = false;
 boolean creditsRama2 = false;
-
-String[] creditsText;
 
 public void settings() {
   size(600, 600);
@@ -45,7 +45,7 @@ public void settings() {
 
 void setup() {
   // INICIALIZACIÓN DE VARIABLES RAMA 0
-  for (int i = 0; i < 11; i++) {
+  for (int i = 0; i < 12; i++) {
     images[i] = loadImage("rama0/imagenes/p" + (i+1) + ".jpg");
     textPositionsX[i] = width / 2;
     textPositionsY[i] = height / 2;
@@ -53,7 +53,7 @@ void setup() {
   }
 
   // INICIALIZACIÓN DE VARIABLES RAMA 1
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 5; i++) {
     option3Images[i] = loadImage("rama1/imagenes/p" + (i+3) + "r1.jpg");
     option3TextPositionsX[i] = width / 2;
     option3TextPositionsY[i] = height / 2;
@@ -61,7 +61,7 @@ void setup() {
   }
 
   // INICIALIZACIÓN DE VARIABLES RAMA 2
-  for (int i = 0; i < 8; i++) {
+  for (int i = 0; i < 9; i++) {
     option3_3Images[i] = loadImage("rama2/imagenes/p" + (i+5) + "r3.jpeg");
     option3_3TextPositionsX[i] = width / 2;
     option3_3TextPositionsY[i] = height / 2;
@@ -86,16 +86,15 @@ void draw() {
     background(255, 255, 255);
     image(imgGo, 170, 145, 260, 260);
   } else {
-
-    if (diapos[10]) {
+    if (diapos[11]) {
       creditsRama0 = true;
-    } else if (option3Diapos[3]) {
+    } else if (option3Diapos[4]) {
       creditsRama1 = true;
-    } else if (option3_3Diapos[7]) {
+    } else if (option3_3Diapos[8]) {
       creditsRama2 = true;
     }
 
-    for (int i = 0; i < 11; i++) {
+    for (int i = 0; i < 12; i++) {
       if (diapos[i]) {
         image(images[i], 0, 0, 600, 600);
         fill(0, 0, 0, 200);
@@ -111,7 +110,7 @@ void draw() {
       }
     }
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
       if (option3Diapos[i]) {
         image(option3Images[i], 0, 0, 600, 600);
         fill(0, 0, 0, 200);
@@ -127,7 +126,7 @@ void draw() {
       }
     }
 
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 9; i++) {
       if (option3_3Diapos[i]) {
         image(option3_3Images[i], 0, 0, 600, 600);
         fill(0, 0, 0, 200);
@@ -135,7 +134,7 @@ void draw() {
         fill(255);
         textSize(16);
         text(option3_3Texts[i], option3_3TextPositionsX[i], option3_3TextPositionsY[i]);
-        if (i < 7) {
+        if (i < 8) {
           drawNextButton();
         }
       }
@@ -146,8 +145,8 @@ void draw() {
       fill(255);
       textSize(32);
       textAlign(LEFT, TOP);
-      for (int i = 0; i < creditsText.length; i++) {
-        text(creditsText[i], 20, 20 + i * 20);
+      for (int x = 0; x < creditsText.length; x++) {
+        text(creditsText[x], 20, 20 + x * 20);
       }
       image(imgGoBack, 518, 522, 46, 77);
     }
@@ -187,6 +186,9 @@ void avanzarDiapositiva() {
     diapos[10] = true;
   } else if (diapos[10]) {
     diapos[10] = false;
+    diapos[11] = true;
+  } else if (diapos[11]) {
+    diapos[11] = false;
   }
 
   // Validación rama 1
@@ -198,6 +200,9 @@ void avanzarDiapositiva() {
     option3Diapos[2] = true;
   }  else if (option3Diapos[3]) {
     option3Diapos[3] = false;
+    option3Diapos[4] = true;
+  } else if (option3Diapos[4]) {
+    option3Diapos[4] = false;
   }
 
   // Validación rama 2
@@ -224,7 +229,10 @@ void avanzarDiapositiva() {
     option3_3Diapos[7] = true;
   } else if (option3_3Diapos[7]) {
     option3_3Diapos[7] = false;
-  } 
+    option3_3Diapos[8] = true;
+  } else if (option3_3Diapos[8]) {
+    option3_3Diapos[8] = false;
+  }
 }
 
 void mouseClicked() {
@@ -235,9 +243,9 @@ void mouseClicked() {
   }
   
   // Botón de avanzar diapositiva
-  if ( (diapos[0] || diapos[1] || diapos[3] || diapos[4] || diapos[5] || diapos[6] || diapos[7] || diapos[8] || diapos[9] || diapos[10] ||
-    option3Diapos[0] || option3Diapos[1] || option3Diapos[3] ||
-    option3_3Diapos[0] || option3_3Diapos[1] || option3_3Diapos[2] || option3_3Diapos[3] || option3_3Diapos[4] || option3_3Diapos[5] || option3_3Diapos[6] || option3_3Diapos[7])
+  if ( (diapos[0] || diapos[1] || diapos[3] || diapos[4] || diapos[5] || diapos[6] || diapos[7] || diapos[8] || diapos[9] || diapos[10] || diapos[11] ||
+    option3Diapos[0] || option3Diapos[1] || option3Diapos[3] || option3Diapos[4] ||
+    option3_3Diapos[0] || option3_3Diapos[1] || option3_3Diapos[2] || option3_3Diapos[3] || option3_3Diapos[4] || option3_3Diapos[5] || option3_3Diapos[6] || option3_3Diapos[7] || option3_3Diapos[8])
     && go && mouseX >= 220 && mouseX <= 340 && mouseY >= 540 && mouseY <= 577)
   {
     avanzarDiapositiva();
@@ -277,22 +285,25 @@ void mouseClicked() {
     }
   }
 
-  //BOTON DE REINICIO 
+  // BOTON DE REINICIO
   if ((creditsRama0 || creditsRama1 || creditsRama2) &&
-    go && mouseX >= 518 && mouseX <= 564 && mouseY >= 522 && mouseY <= 599)
-  {
+      go && mouseX >= 518 && mouseX <= 564 && mouseY >= 522 && mouseY <= 599) {
     go = false;
     creditsRama0 = false;
     creditsRama1 = false;
     creditsRama2 = false;
-  }
 
-  if ((creditsRama0 || creditsRama1 || creditsRama2) &&
-    go && mouseX >= 518 && mouseX <= 564 && mouseY >= 522 && mouseY <= 599) {
-    go = false;
-    creditsRama0 = false;
-    creditsRama1 = false;
-    creditsRama2 = false;
+    for (int i = 0; i < diapos.length; i++) {
+      diapos[i] = false;
+    }
+
+    for (int i = 0; i < option3Diapos.length; i++) {
+      option3Diapos[i] = false;
+    }
+
+    for (int i = 0; i < option3_3Diapos.length; i++) {
+      option3_3Diapos[i] = false;
+    }
   }
 }
 
